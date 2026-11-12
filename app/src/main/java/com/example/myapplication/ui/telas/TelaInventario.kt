@@ -1,6 +1,12 @@
 package com.example.myapplication.ui.telas
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -40,9 +46,9 @@ fun TelaInventario(pecas: List<Peca>, onAbrirPeca: (Peca) -> Unit, onSalvar: (Pe
             Button(onClick = { criando = true }) { Text("Nova peça") }
         }
         Spacer(Modifier.height(12.dp))
-        OutlinedTextField(busca, { busca = it }, label = { Text("Buscar peça") }, modifier = Modifier.fillMaxWidth())
+        OutlinedTextField(busca, { busca = it }, label = { Text("Buscar peça") }, singleLine = true, modifier = Modifier.fillMaxWidth())
         Spacer(Modifier.height(12.dp))
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp), contentPadding = PaddingValues(bottom = 24.dp)) {
             items(filtradas, key = { it.id }) { peca ->
                 Card(modifier = Modifier.fillMaxWidth()) { Column(Modifier.padding(12.dp)) {
                     Text(peca.nome, fontWeight = FontWeight.Bold); Text("${peca.categoria} - ${peca.marca}")
@@ -62,19 +68,35 @@ private fun PecaDialog(peca: Peca?, onDismiss: () -> Unit, onSalvar: (Peca) -> U
     var marca by remember { mutableStateOf(peca?.marca ?: "") }
     var modelo by remember { mutableStateOf(peca?.modelo ?: "") }
     var preco by remember { mutableStateOf(peca?.preco ?: "") }
-    AlertDialog(onDismissRequest = onDismiss, title = { Text(if (peca == null) "Cadastrar peça" else "Alterar peça") }, text = { Column { OutlinedTextField(nome, { nome = it }, label = { Text("Nome") }); OutlinedTextField(categoria, { categoria = it }, label = { Text("Categoria") }); OutlinedTextField(marca, { marca = it }, label = { Text("Marca") }); OutlinedTextField(modelo, { modelo = it }, label = { Text("Modelo") }); OutlinedTextField(preco, { preco = it }, label = { Text("Preço") }) } }, confirmButton = { Button(onClick = { if (nome.isNotBlank()) onSalvar(
-        Peca(
-            peca?.id ?: UUID.randomUUID().toString(),
-            nome,
-            categoria,
-            marca,
-            modelo,
-            peca?.status ?: "Disponível",
-            peca?.localizacao ?: "",
-            preco,
-            peca?.dataCompra ?: "",
-            peca?.numeroSerie ?: "",
-            peca?.loja ?: ""
-        )
-    ) }) { Text("Salvar") } }, dismissButton = { TextButton(onClick = onDismiss) { Text("Cancelar") } })
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(if (peca == null) "Cadastrar peça" else "Alterar peça") },
+        text = {
+            Column(
+                modifier = Modifier.verticalScroll(rememberScrollState()).imePadding(),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                OutlinedTextField(nome, { nome = it }, label = { Text("Nome") }, singleLine = true)
+                OutlinedTextField(categoria, { categoria = it }, label = { Text("Categoria") }, singleLine = true)
+                OutlinedTextField(marca, { marca = it }, label = { Text("Marca") }, singleLine = true)
+                OutlinedTextField(modelo, { modelo = it }, label = { Text("Modelo") }, singleLine = true)
+                OutlinedTextField(
+                    value = preco, onValueChange = { preco = it },
+                    label = { Text("Preço") }, singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = {
+                if (nome.isNotBlank()) onSalvar(Peca(
+                    peca?.id ?: UUID.randomUUID().toString(),
+                    nome, categoria, marca, modelo,
+                    peca?.status ?: "Disponível", peca?.localizacao ?: "",
+                    preco, peca?.dataCompra ?: "", peca?.numeroSerie ?: "", peca?.loja ?: ""
+                ))
+            }) { Text("Salvar") }
+        },
+        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancelar") } }
+    )
 }

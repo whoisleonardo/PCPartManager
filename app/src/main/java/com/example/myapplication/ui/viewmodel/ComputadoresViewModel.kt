@@ -6,10 +6,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import com.example.myapplication.data.AppDatabase
+import com.example.myapplication.data.dao.ComputadorDao
 import com.example.myapplication.models.Computador
 
 class ComputadoresViewModel(application: Application) : AndroidViewModel(application) {
-    private val banco = AppDatabase(application).computadorDao
+    private val banco = ComputadorDao(AppDatabase(application))
     var computadores by mutableStateOf(emptyList<Computador>()); private set
     fun listar() { computadores = banco.listarComputadores() }
     fun salvar(computador: Computador) { banco.salvarComputador(computador); listar() }

@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import com.example.myapplication.models.Peca
+import com.example.myapplication.ui.theme.corStatus
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,26 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-
-// ==== Funções auxiliares (when) para cores de status e prioridade ====
-
-fun corStatus(status: String): Color {
-    return when (status) {
-        "Disponível" -> Color(0xFF6FA37B)
-        "Instalada" -> Color(0xFF6E8FBF)
-        "Manutenção" -> Color(0xFFCFA76A)
-        "Reservada" -> Color(0xFFA290C4)
-        else -> Color.Gray
-    }
-}
-
-fun corPrioridade(prioridade: String): Color {
-    return when (prioridade) {
-        "Alta" -> Color(0xFFC5726B)
-        "Média" -> Color(0xFFCFA76A)
-        else -> Color(0xFF8A857D)
-    }
-}
 
 // ==== Componentes reutilizados por mais de uma tela ====
 

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -111,7 +112,8 @@ fun BarraDeNavegacao(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 10.dp),
+            .navigationBarsPadding()
+            .padding(top = 10.dp, bottom = 16.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         abas.forEach { (id, rotulo) ->

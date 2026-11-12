@@ -29,7 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.models.Desejo
 import com.example.myapplication.FiltroChip
-import com.example.myapplication.corPrioridade
+import com.example.myapplication.ui.theme.corPrioridade
 
 // ============================================================
 // Tela desenvolvida por: João
@@ -123,7 +123,7 @@ fun TelaDesejos(
                             .fillMaxWidth(fracaoAlta)
                             .height(6.dp),
                         colors = CardDefaults.cardColors(
-                            containerColor = Color(0xFF6FA37B)
+                            containerColor = com.example.myapplication.ui.theme.corStatus("Disponível")
                         ),
                         shape = RoundedCornerShape(3.dp),
                         content = {

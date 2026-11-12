@@ -1,6 +1,10 @@
 package com.example.myapplication.ui.telas
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,7 +38,7 @@ fun TelaComputadores(computadores: List<Computador>, onSalvar: (Computador) -> U
             Text("Computadores", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
             Button(onClick = { criando = true }) { Text("Novo PC") }
         }
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) { items(computadores, key = { it.id }) { pc -> Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(14.dp)) { Text(pc.nome, fontWeight = FontWeight.Bold); Text("${pc.status} - ${pc.valorTotal}"); Row { TextButton(onClick = { editando = pc }) { Text("Alterar") }; TextButton(onClick = { onDeletar(pc.id) }) { Text("Deletar") } } } } } }
+        LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp), contentPadding = PaddingValues(bottom = 24.dp)) { items(computadores, key = { it.id }) { pc -> Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(14.dp)) { Text(pc.nome, fontWeight = FontWeight.Bold); Text("${pc.status} - ${pc.valorTotal}"); Row { TextButton(onClick = { editando = pc }) { Text("Alterar") }; TextButton(onClick = { onDeletar(pc.id) }) { Text("Deletar") } } } } } }
     }
     if (criando) ComputadorDialog(null, { criando = false }) { onSalvar(it); criando = false }
     editando?.let { pc -> ComputadorDialog(pc, { editando = null }) { onSalvar(it); editando = null } }
@@ -44,17 +48,28 @@ fun TelaComputadores(computadores: List<Computador>, onSalvar: (Computador) -> U
 private fun ComputadorDialog(pc: Computador?, onDismiss: () -> Unit, onSalvar: (Computador) -> Unit) {
     var nome by remember { mutableStateOf(pc?.nome ?: "") }
     var valor by remember { mutableStateOf(pc?.valorTotal ?: "") }
-    AlertDialog(onDismissRequest = onDismiss, title = { Text(if (pc == null) "Cadastrar computador" else "Alterar computador") }, text = { Column { OutlinedTextField(nome, { nome = it }, label = { Text("Nome") }); OutlinedTextField(valor, { valor = it }, label = { Text("Valor total") }) } }, confirmButton = { Button(onClick = { if (nome.isNotBlank()) onSalvar(
-        Computador(
-            pc?.id ?: 0,
-            nome,
-            pc?.status ?: "Ativo",
-            pc?.compatibilidade ?: "Compatível",
-            pc?.compativel ?: true,
-            valor,
-            pc?.consumo ?: "",
-            pc?.dataMontagem ?: "",
-            emptyList()
-        )
-    ) }) { Text("Salvar") } }, dismissButton = { TextButton(onClick = onDismiss) { Text("Cancelar") } })
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(if (pc == null) "Cadastrar computador" else "Alterar computador") },
+        text = {
+            Column(modifier = Modifier.imePadding()) {
+                OutlinedTextField(nome, { nome = it }, label = { Text("Nome") }, singleLine = true)
+                OutlinedTextField(
+                    value = valor, onValueChange = { valor = it },
+                    label = { Text("Valor total") }, singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = {
+                if (nome.isNotBlank()) onSalvar(Computador(
+                    pc?.id ?: 0, nome, pc?.status ?: "Ativo",
+                    pc?.compatibilidade ?: "Compatível", pc?.compativel ?: true,
+                    valor, pc?.consumo ?: "", pc?.dataMontagem ?: "", pc?.slots ?: emptyList()
+                ))
+            }) { Text("Salvar") }
+        },
+        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancelar") } }
+    )
 }

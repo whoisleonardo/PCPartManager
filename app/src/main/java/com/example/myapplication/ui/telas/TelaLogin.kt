@@ -2,6 +2,11 @@ package com.example.myapplication.ui.telas
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,7 +42,7 @@ fun TelaLogin(aoEntrar: () -> Unit, irParaCadastro: () -> Unit, viewModel: AuthV
     }
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(20.dp),
+        modifier = Modifier.fillMaxSize().imePadding().verticalScroll(rememberScrollState()).padding(20.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -50,6 +55,7 @@ fun TelaLogin(aoEntrar: () -> Unit, irParaCadastro: () -> Unit, viewModel: AuthV
             onValueChange = { email = it },
             label = { Text("E-mail") },
             singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(12.dp))
@@ -58,6 +64,7 @@ fun TelaLogin(aoEntrar: () -> Unit, irParaCadastro: () -> Unit, viewModel: AuthV
             onValueChange = { senha = it },
             label = { Text("Senha") },
             singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
         )

@@ -1,9 +1,6 @@
 package com.example.myapplication.data
 
 import android.content.Context
-import com.example.myapplication.data.dao.UsuarioDao
-import com.example.myapplication.data.dao.PecaDao
-import com.example.myapplication.data.dao.ComputadorDao
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
@@ -17,7 +14,4 @@ class AppDatabase(context: Context) : SQLiteOpenHelper(context, "pc_parts.db", n
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) = Unit
 
-    val usuarioDao = UsuarioDao(this)
-    val pecaDao = PecaDao(this)
-    val computadorDao = ComputadorDao(this)
 }

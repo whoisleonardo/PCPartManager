@@ -6,10 +6,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import com.example.myapplication.data.AppDatabase
+import com.example.myapplication.data.dao.PecaDao
 import com.example.myapplication.models.Peca
 
 class PecasViewModel(application: Application) : AndroidViewModel(application) {
-    private val banco = AppDatabase(application).pecaDao
+    private val banco = PecaDao(AppDatabase(application))
     var pecas by mutableStateOf(emptyList<Peca>()); private set
     fun listar() { pecas = banco.listarPecas() }
     fun salvar(peca: Peca) { banco.salvarPeca(peca); listar() }
