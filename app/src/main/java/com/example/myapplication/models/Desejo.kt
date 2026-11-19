@@ -9,5 +9,6 @@ data class Desejo(
     val precoAnterior: String,
     val tendencia: String, // ex: "-14%"
     val caiu: Boolean,
-    val loja: String
+    val loja: String,
+    val id: Long = 0
 )

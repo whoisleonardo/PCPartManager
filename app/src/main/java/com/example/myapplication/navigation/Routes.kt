@@ -22,3 +22,6 @@ data object Desejos
 
 @Serializable
 data class DetalhePeca(val id: String)
+
+@Serializable
+data object Perfil

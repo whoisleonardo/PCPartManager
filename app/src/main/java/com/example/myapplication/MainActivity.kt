@@ -31,6 +31,7 @@ import com.example.myapplication.navigation.DetalhePeca
 import com.example.myapplication.navigation.Inicio
 import com.example.myapplication.navigation.Inventario
 import com.example.myapplication.navigation.Login
+import com.example.myapplication.navigation.Perfil
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.ui.viewmodel.AuthViewModel
@@ -61,6 +62,7 @@ fun App() {
     val telaAtual = when {
         destination.isRoute(Inventario::class) -> "inventario"
         destination.isRoute(Computadores::class) -> "computadores"
+        destination.isRoute(Perfil::class) -> "perfil"
         destination.isRoute(Desejos::class) -> "desejos"
         else -> "inicio"
     }
@@ -76,6 +78,7 @@ fun App() {
                             "inventario" -> navController.navigate(Inventario)
                             "computadores" -> navController.navigate(Computadores)
                             "desejos" -> navController.navigate(Desejos)
+                            "perfil" -> navController.navigate(Perfil)
                         }
                     },
                     onSair = {
@@ -106,7 +109,8 @@ fun BarraDeNavegacao(
         "inicio" to "Início",
         "inventario" to "Peças",
         "computadores" to "PCs",
-        "desejos" to "Desejos"
+        "desejos" to "Desejos",
+        "perfil" to "Perfil"
     )
 
     Row(

@@ -13,6 +13,8 @@ import com.example.myapplication.ui.telas.TelaDetalhePeca
 import com.example.myapplication.ui.telas.TelaInicio
 import com.example.myapplication.ui.telas.TelaInventario
 import com.example.myapplication.ui.telas.TelaLogin
+import com.example.myapplication.ui.telas.TelaPerfil
+import com.example.myapplication.ui.viewmodel.DesejosViewModel
 import com.example.myapplication.Dados
 import com.example.myapplication.ui.viewmodel.AuthViewModel
 import com.example.myapplication.ui.viewmodel.ComputadoresViewModel
@@ -75,7 +77,18 @@ fun AppNavigation(navController: NavHostController, authViewModel: AuthViewModel
         }
 
         composable<Desejos> {
-            TelaDesejos(desejos = Dados.desejos)
+            val desejosViewModel: DesejosViewModel = viewModel()
+            LaunchedEffect(Unit) { desejosViewModel.listar() }
+            TelaDesejos(desejos = desejosViewModel.desejos, onSalvar = desejosViewModel::salvar, onDeletar = desejosViewModel::deletar)
+        }
+
+        composable<Perfil> {
+            LaunchedEffect(Unit) { authViewModel.carregarPerfil() }
+            TelaPerfil(perfil = authViewModel.perfil, onAtualizar = authViewModel::atualizarPerfil, onExcluir = {
+                if (authViewModel.excluirPerfil()) {
+                    navController.navigate(Login) { popUpTo(0) { inclusive = true } }
+                }
+            })
         }
 
         composable<DetalhePeca> { backStackEntry ->
