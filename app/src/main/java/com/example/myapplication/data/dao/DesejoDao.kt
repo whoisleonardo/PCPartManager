@@ -17,7 +17,8 @@ class DesejoDao(private val database: AppDatabase) {
                 tendencia = c.getString(c.getColumnIndexOrThrow("tendencia")),
                 caiu = c.getInt(c.getColumnIndexOrThrow("caiu")) != 0,
                 loja = c.getString(c.getColumnIndexOrThrow("loja")),
-                id = c.getLong(c.getColumnIndexOrThrow("id"))
+                id = c.getLong(c.getColumnIndexOrThrow("id")),
+                fotoUri = c.getString(c.getColumnIndexOrThrow("foto_uri"))
             ))
         }
     }
@@ -33,6 +34,7 @@ class DesejoDao(private val database: AppDatabase) {
             put("tendencia", desejo.tendencia)
             put("caiu", if (desejo.caiu) 1 else 0)
             put("loja", desejo.loja)
+            put("foto_uri", desejo.fotoUri)
         }
         if (desejo.id == 0L) database.writableDatabase.insert("desejos", null, valores)
         else database.writableDatabase.update("desejos", valores, "id=?", arrayOf(desejo.id.toString()))

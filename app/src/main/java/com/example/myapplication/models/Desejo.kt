@@ -10,5 +10,6 @@ data class Desejo(
     val tendencia: String, // ex: "-14%"
     val caiu: Boolean,
     val loja: String,
-    val id: Long = 0
+    val id: Long = 0,
+    val fotoUri: String = ""
 )

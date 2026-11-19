@@ -58,3 +58,12 @@ PCPartsManager/
 
 Detalhes sobre divisão do trabalho em equipe e sobre quais conceitos de
 aula foram usados estão no `LEIA-ME.md`.
+
+
+## Integração de API e recurso nativo
+
+- **Retrofit:** a tela **Desejos** busca a cotação de referência USD/BRL na API pública Frankfurter (`GET https://api.frankfurter.dev/v1/latest?base=USD&symbols=BRL`). Exibe a data da taxa e permite atualizar manualmente. Necessita de internet; não exige chave de API.
+- **Recurso nativo Android:** ao criar ou editar um desejo, toque em **Selecionar foto da galeria** para abrir o seletor de documentos/imagens do sistema (`ActivityResultContracts.OpenDocument`). A permissão de leitura persistente é solicitada apenas para a imagem escolhida e sua URI é salva no SQLite. Não é necessária permissão ampla de galeria.
+- **Banco de dados:** a migração SQLite v2 → v3 acrescenta a coluna `foto_uri` sem apagar desejos já cadastrados.
+
+Para verificar no celular/emulador: entre no app, abra Desejos, confirme a cotação com internet e teste os botões de atualizar, escolher imagem, salvar, reabrir e editar o desejo.
